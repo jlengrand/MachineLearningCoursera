@@ -13,9 +13,13 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+tmat = repmat( theta, 1, size(X, 1) );
+h_theta = tmat' .* X;
 
+temp_1 = (sum(h_theta,2) - y);
+temp_2 = temp_1.^2;
 
-
+J = 1/(2*m) * sum(temp_2);
 
 % =========================================================================
 
