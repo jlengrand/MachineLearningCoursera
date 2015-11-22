@@ -31,7 +31,7 @@ J = 1 / m * sum(part_1 - part_2);
 % Calculating g
 temp_1 = sigmoid(X*theta) - y;
 temp_2 = repmat(temp_1, 1, size(X, 2));
-g = 1/m * sum(X .* temp_2);
+grad = 1/m * sum(X .* temp_2);
 
 % =============================================================
 
