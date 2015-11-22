@@ -20,12 +20,18 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+% Calculating J
+theta_t_x = X*theta;
+h_theta = sigmoid(theta_t_x);
 
+part_1 = -y'*log(h_theta);
+part_2 = (1 - y)' * log(1 - h_theta);
+J = 1 / m * sum(part_1 - part_2);
 
-
-
-
-
+% Calculating g
+temp_1 = sigmoid(X*theta) - y;
+temp_2 = repmat(temp_1, 1, size(X, 2));
+g = 1/m * sum(X .* temp_2);
 
 % =============================================================
 
