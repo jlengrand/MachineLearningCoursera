@@ -62,22 +62,29 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% forward propagation
 
+X = [ones(m, 1) X];
+a2 = sigmoid(X * Theta1');
+a2 = [ones(m, 1) a2];
+a3 = sigmoid(a2 * Theta2');
 
+% [val, p] = max(a3, [], 2);
 
+% reshaping y to have vectors
+y2 = zeros(size(y, 1), num_labels);
+for ii = 1:size(y2, 1)
+    y2(ii, y(ii)) = 1;
+end
 
+for i = 1:m
+    temp1 = - y2(i, :) * log(a3(i, :))';
+    temp2 = (1-y2(i, :))*(log(1- a3(i, :)))';
+    temp3 = temp1 - temp2;
+    J = J + temp3;
+end
 
-
-
-
-
-
-
-
-
-
-
-
+J = J / m;
 
 
 % -------------------------------------------------------------
