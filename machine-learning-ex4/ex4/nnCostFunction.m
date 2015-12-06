@@ -77,15 +77,26 @@ for ii = 1:size(y2, 1)
     y2(ii, y(ii)) = 1;
 end
 
+% Cost without regularization
 for i = 1:m
     temp1 = - y2(i, :) * log(a3(i, :))';
     temp2 = (1-y2(i, :))*(log(1- a3(i, :)))';
     temp3 = temp1 - temp2;
     J = J + temp3;
 end
-
 J = J / m;
 
+% Adding regularization
+Theta11 = Theta1;% Theta1 without bias;
+Theta11(:, 1) = [];
+Theta22 = Theta2;
+Theta22(:, 1) = [];
+
+Theta11s = Theta11.^2;
+Theta22s = Theta22.^2;
+
+reg = (lambda/(2*m))*(sum(Theta11s(:)) + sum(Theta22s(:)));
+J = J + reg;
 
 % -------------------------------------------------------------
 
