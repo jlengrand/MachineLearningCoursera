@@ -65,9 +65,11 @@ Theta2_grad = zeros(size(Theta2));
 % forward propagation
 
 X = [ones(m, 1) X];
-a2 = sigmoid(X * Theta1');
+z2 = X * Theta1';
+a2 = sigmoid(z2);
 a2 = [ones(m, 1) a2];
-a3 = sigmoid(a2 * Theta2');
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
 
 % [val, p] = max(a3, [], 2);
 
@@ -100,7 +102,47 @@ J = J + reg;
 
 % -------------------------------------------------------------
 
+% Backpropagation
+% Here we are going to calculate Theta1_grad and Theta2_grad 
+
+for i = 1:m
+    % step 1
+    a1 = X(i, :);
+    a2t = a2(i, :);
+    z2t = [1 z2(i, :)];
+    a3t = a3(i, :);
+    z3t = z3(i, :);
+    y_t = y2(i, :);
+    
+    % step 2
+    delta3 = a3t - y_t;
+    
+    % step 3
+    t2 = (Theta2' * delta3');
+    delta2 = t2'.*(sigmoidGradient(z2t));
+    
+    % step 4
+    delta2(:, 1) = [];
+    Theta1_grad = Theta1_grad + (delta2' * a1);
+    Theta2_grad = Theta2_grad + (delta3' * a2t); 
+end
+
+% step 5
+Theta1_grad = (1/m).*Theta1_grad;
+Theta2_grad = (1/m).*Theta2_grad;
+
+% Adding regularization
+temp_reg1 = Theta1;
+temp_reg1(:, 1) = zeros(size(temp_reg1(:, 1)));
+% temp_reg1(1:end, 2:end) = (lambda/m) * Theta1(1:end, 2:end);
+temp_reg2 = Theta2;
+temp_reg2(:, 1) = zeros(size(temp_reg2(:, 1)));
+% temp_reg2(1:end, 2:end) = (lambda/m) * temp_reg2(1:end, 2:end);
+Theta1_grad = Theta1_grad + (lambda/m) * temp_reg1;
+Theta2_grad = Theta2_grad + (lambda/m) * temp_reg2;
+
 % =========================================================================
+
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];

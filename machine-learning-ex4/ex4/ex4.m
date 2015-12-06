@@ -117,7 +117,7 @@ fprintf('%f ', g);
 fprintf('\n\n');
 
 fprintf('Program paused. Press enter to continue.\n');
-pause;
+% pause;
 
 
 %% ================ Part 6: Initializing Pameters ================
@@ -147,7 +147,7 @@ fprintf('\nChecking Backpropagation... \n');
 checkNNGradients;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% pause;
 
 
 %% =============== Part 8: Implement Regularization ===============
