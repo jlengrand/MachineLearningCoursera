@@ -33,7 +33,8 @@ J = temp1 + temp2;
 
 % =========================================================================
 
-t11 = sigmoid(X*theta) - y;
+% t11 = sigmoid(X*theta) - y;
+t11 = (X*theta) - y;
 t12 = repmat(t11, 1, size(X, 2));
 temp11 = (1/m) * sum(X .* t12);
 
