@@ -49,7 +49,9 @@ x = zeros(n, 1);
 %
 
 
-
+for ind = word_indices
+    x(ind) = 1;
+end
 
 
 
