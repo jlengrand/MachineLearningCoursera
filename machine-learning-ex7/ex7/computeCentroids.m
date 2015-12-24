@@ -26,12 +26,20 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
+% this could be vectorized but today is Christmas and I have family talking
+% loud everywhere around.
+for i = 1:K
+    temp = [];
+    for j = 1:m
+        if idx(j) == i
+            temp = [temp; X(j, :)];
+        end
+    end
+    
+    s = size(temp, 1);
+    centroids(i, :) = sum(temp)./s;
+    
+end
 
 % =============================================================
 
