@@ -42,10 +42,14 @@ Theta_grad = zeros(size(Theta));
 
 t1 = (Theta*X')';
 t2 = (t1-Y).^2;
-t3 = t2(R==1);
+t3 = t2(R==1); % only when movie has been rated.
 temp = sum(t3(:));
 J = (1/2) * (temp);
 
+temp1 = ((Theta*X')' - Y);
+temp1(find(R==0)) = 0; % only when movie has been rated.
+X_grad =  temp1 * Theta;
+Theta_grad = temp1' * X; 
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
