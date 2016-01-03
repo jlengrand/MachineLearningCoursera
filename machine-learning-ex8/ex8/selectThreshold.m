@@ -10,6 +10,8 @@ bestEpsilon = 0;
 bestF1 = 0;
 F1 = 0;
 
+nPredictions = size(pval, 1);
+
 stepsize = (max(pval) - min(pval)) / 1000;
 for epsilon = min(pval):stepsize:max(pval)
     
@@ -24,16 +26,30 @@ for epsilon = min(pval):stepsize:max(pval)
     %       of 0's and 1's of the outlier predictions
 
 
+    predictions = (pval < epsilon);
 
+    % One day I should vectorize this
+    tp = 0; % correctly found anomalies;
+    fp = 0; % found anomaly, but it actually isn't
+    fn = 0; % anomaly that hasnt been found;
+     
+    for idx = 1:nPredictions
+        y = yval(idx);
+        p = predictions(idx);
+        
+        if((p == 1) & (y == 1))
+            tp = tp + 1;
+        elseif((p == 1) & (y == 0)) 
+            fp = fp + 1;
+        elseif((p == 0) & (y == 1)) 
+            fn = fn + 1;
+        end
+    end
 
+    prec = tp / (tp + fp);
+    rec = tp / (tp + fn);
 
-
-
-
-
-
-
-
+    F1 = (2* prec * rec)/(prec + rec);
 
     % =============================================================
 
