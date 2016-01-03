@@ -46,6 +46,14 @@ t3 = t2(R==1); % only when movie has been rated.
 temp = sum(t3(:));
 J = (1/2) * (temp);
 
+% adding regularization
+x_temp = X.^2;
+theta_temp = Theta.^2;
+reg_x = (lambda / 2) * sum(x_temp(:));
+reg_theta = (lambda / 2) * sum(theta_temp(:));
+J = J  + reg_x + reg_theta;
+
+%calculating gradients
 temp1 = ((Theta*X')' - Y);
 temp1(find(R==0)) = 0; % only when movie has been rated.
 X_grad =  temp1 * Theta;
